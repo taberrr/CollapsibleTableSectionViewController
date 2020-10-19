@@ -41,6 +41,14 @@ open class CollapsibleTableSectionViewController: UIViewController {
         return _sectionsState[section]!
     }
     
+    open func reloadData() {
+        self._tableView.reloadData()
+    }
+    
+    open func registerCell(_ nib: UINib?, forcellReuseIdentifier: String) {
+        self._tableView.register(nib, forCellReuseIdentifier: forcellReuseIdentifier)
+    }
+    
     func getSectionsNeedReload(_ section: Int) -> [Int] {
         var sectionsNeedReload = [section]
         
@@ -74,10 +82,11 @@ open class CollapsibleTableSectionViewController: UIViewController {
         _tableView = UITableView()
         _tableView.dataSource = self
         _tableView.delegate = self
+        _tableView.separatorStyle = .none
         
         // Auto resizing the height of the cell
         _tableView.estimatedRowHeight = 44.0
-        _tableView.rowHeight = UITableViewAutomaticDimension
+        _tableView.rowHeight = UITableView.automaticDimension
         
         // Auto layout the tableView
         view.addSubview(_tableView)
@@ -106,11 +115,11 @@ extension CollapsibleTableSectionViewController: UITableViewDataSource, UITableV
     
     // Cell
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return delegate?.collapsibleTableView?(tableView, cellForRowAt: indexPath) ?? UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
+        return delegate?.collapsibleTableView?(tableView, cellForRowAt: indexPath) ?? UITableViewCell.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: "DefaultCell")
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -133,6 +142,7 @@ extension CollapsibleTableSectionViewController: UITableViewDataSource, UITableV
         guard let customHeader = delegate?.collapsibleTableView?(tableView, viewForHeaderInSection: section) as? CollapsibleTableViewHeader else { return header }
         customHeader.section = section
         customHeader.delegate = self
+        customHeader.setCollapsed(isSectionCollapsed(section))
         return customHeader
     }
     
