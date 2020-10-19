@@ -41,6 +41,10 @@ open class CollapsibleTableSectionViewController: UIViewController {
         return _sectionsState[section]!
     }
     
+    open func reloadData() {
+        self._tableView.reloadData()
+    }
+    
     func getSectionsNeedReload(_ section: Int) -> [Int] {
         var sectionsNeedReload = [section]
         
