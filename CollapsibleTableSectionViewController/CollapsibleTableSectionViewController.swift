@@ -45,6 +45,10 @@ open class CollapsibleTableSectionViewController: UIViewController {
         self._tableView.reloadData()
     }
     
+    open func registerCell(_ nib: UINib?, forcellReuseIdentifier: String) {
+        self._tableView.register(nib, forCellReuseIdentifier: forcellReuseIdentifier)
+    }
+    
     func getSectionsNeedReload(_ section: Int) -> [Int] {
         var sectionsNeedReload = [section]
         
