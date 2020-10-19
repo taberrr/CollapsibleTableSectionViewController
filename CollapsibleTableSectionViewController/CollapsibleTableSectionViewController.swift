@@ -142,6 +142,7 @@ extension CollapsibleTableSectionViewController: UITableViewDataSource, UITableV
         guard let customHeader = delegate?.collapsibleTableView?(tableView, viewForHeaderInSection: section) as? CollapsibleTableViewHeader else { return header }
         customHeader.section = section
         customHeader.delegate = self
+        customHeader.setCollapsed(isSectionCollapsed(section))
         return customHeader
     }
     
